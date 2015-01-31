@@ -1,23 +1,33 @@
 /**
  * Created by Milos on 31.1.2015..
  */
-var should = require("should");
-var request = require("supertest");
+var supertest = require("supertest");
+
+var mongoose = require("mongoose");
 
 describe("Routes", function() {
+
     var url = "http://localhost:3000";
+    mongoose.connect("mongodb://localhost/seraphim-reborn");
+
     describe("GET /", function() {
-        it("Should return code 200 for homepage", function() {
-            request(url)
-                .get("/")
-                .end(function(err, res) {
-                    res.should.have.status(200);
+        it("Should return status 200 for homepage", function(done) {
+
+            supertest(url)
+                .get('/')
+                .expect(200)
+                .end(function(err) {
+                    if(err)
+                        throw err;
+                    done();
                 });
         })
     });
     describe("POST /resources/http", function() {
-        it("Should accept and gather http related telemetry", function() {
+        it("Should accept and gather http related telemetry", function(done) {
+
             var httpTelemetry = {
+                resource: "http",
                 request: "GET",
                 from: "daffyduck.com",
                 to: "dolan.fi",
@@ -25,62 +35,58 @@ describe("Routes", function() {
                 content: "Three decades of war"
             };
 
-            request(url)
+            supertest(url)
                 .post("/resources/http")
-                .send(httpTelemetry.toJSON())
-                .end();
+                .send(httpTelemetry)
+                .expect(200)
+                .end(function(err) {
+                    if(err)
+                        throw err;
 
-            //CouchDB HERE
-        })
-    });
-    describe("POST /resources/http", function() {
-        it("Should accept and gather http related telemetry", function() {
-            var httpTelemetry = {
-                request: "GET",
-                from: "daffyduck.com",
-                to: "dolan.fi",
-                headers: "Headers",
-                content: "Three decades of war"
-            };
-
-            request(url)
-                .post("/resources/http")
-                .send(httpTelemetry.toJSON())
-                .end();
-
-            //CouchDB HERE for http
+                        done();
+                });
         })
     });
     describe("POST /resources/net", function() {
-        it("Should accept and gather networking related telemetry", function() {
-            var httpTelemetry = {
-                networkingInterface: "eth0",
+        it("Should accept and gather networking related telemetry", function(done) {
+            var netTelemetry = {
+                net: "net",
+                networkInterface: "eth0",
                 time: "12:00",
                 transport: "incoming"
             };
 
-            request(url)
+            supertest(url)
                 .post("/resources/net")
-                .send(httpTelemetry.toJSON())
-                .end();
+                .send(netTelemetry)
+                .expect(200)
+                .end(function(err) {
+                    if(err)
+                        throw err;
 
-            //CouchDB HERE for net
+                    done();
+                });
         })
     });
     describe("POST /resources/system", function() {
-        it("Should accept and gather system related telemetry", function() {
-            var httpTelemetry = {
+        it("Should accept and gather system related telemetry", function(done) {
+            var systemTelemetry = {
+                resource: "system",
                 flag: "CPU",
                 time: "12:00",
                 data: "100%"
             };
 
-            request(url)
-                .post("/resources/http")
-                .send(httpTelemetry.toJSON())
-                .end();
+            supertest(url)
+                .post("/resources/system")
+                .send(systemTelemetry)
+                .expect(200)
+                .end(function(err) {
+                    if(err)
+                        throw err;
 
-            //CouchDB HERE for system
-        })
+                    done();
+                });
+        });
     });
 });
