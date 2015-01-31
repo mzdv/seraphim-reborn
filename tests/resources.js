@@ -3,12 +3,9 @@
  */
 var supertest = require("supertest");
 
-var mongoose = require("mongoose");
-
 describe("Routes", function() {
 
     var url = "http://localhost:3000";
-    mongoose.connect("mongodb://localhost/seraphim-reborn");
 
     describe("GET /", function() {
         it("Should return status 200 for homepage", function(done) {
