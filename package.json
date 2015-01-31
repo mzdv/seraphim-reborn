@@ -17,8 +17,10 @@
   },
   "devDependencies": {
     "gulp": "~3.8.10",
-    "gulp-nodemon": "~1.0.4",
     "gulp-livereload": "~3.4.0",
-    "mocha": "*"
+    "gulp-nodemon": "~1.0.4",
+    "mocha": "*",
+    "should": "^4.6.2",
+    "supertest": "*"
   }
 }
