@@ -6,7 +6,11 @@ var mongoose = require("mongoose");
 var netModel = mongoose.model("net", {
     networkInterface: String,
     time: String,
-    transport: String
+    transport: String,
+    created: {
+        type: Date,
+        default: Date.now
+    }
 }, "net");
 
 module.exports = netModel;

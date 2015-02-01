@@ -8,7 +8,11 @@ var httpModel = mongoose.model("http", {
     from: String,
     to: String,
     headers: String,
-    content: String
+    content: String,
+    created: {
+        type: Date,
+        default: Date.now
+    }
 }, "http");
 
 module.exports = httpModel;

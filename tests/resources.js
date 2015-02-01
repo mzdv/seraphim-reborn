@@ -8,7 +8,7 @@ describe("Routes", function() {
     var url = "http://localhost:3000";
 
     describe("GET /", function() {
-        it("Should return status 200 for homepage", function(done) {
+        it("Should return 200 for homepage", function(done) {
 
             supertest(url)
                 .get('/')
@@ -21,7 +21,7 @@ describe("Routes", function() {
         })
     });
     describe("POST /resources/http", function() {
-        it("Should accept and gather http related telemetry", function(done) {
+        it("Should return 200 for successful insertion of http telemetry", function(done) {
 
             var httpTelemetry = {
                 resource: "http",
@@ -45,7 +45,7 @@ describe("Routes", function() {
         })
     });
     describe("POST /resources/net", function() {
-        it("Should accept and gather networking related telemetry", function(done) {
+        it("Should return 200 for successful insertion of network telemetry", function(done) {
             var netTelemetry = {
                 net: "net",
                 networkInterface: "eth0",
@@ -66,7 +66,7 @@ describe("Routes", function() {
         })
     });
     describe("POST /resources/system", function() {
-        it("Should accept and gather system related telemetry", function(done) {
+        it("Should return 200 for successful insertion of system telemetry", function(done) {
             var systemTelemetry = {
                 resource: "system",
                 flag: "CPU",

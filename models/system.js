@@ -7,7 +7,11 @@ var systemModel = mongoose.model("system", {
     resource: String,
     flag: String,
     time: String,
-    data: String
+    data: String,
+    created: {
+        type: Date,
+        default: Date.now
+    }
 }, "system");
 
 module.exports = systemModel;
