@@ -29,7 +29,7 @@ block content
         h3 Time
         p.data time
 
-    script(src="/socket.io/socket.io.js")
+    script(src="/components/socket.io-client/socket.io.js")
     script.
         var socket = io.connect("http://localhost:3000");
         socket.on("hello", function(data) {
