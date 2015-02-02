@@ -1,6 +1,33 @@
 extends layout
 
 block content
-  h1= title
-  p #{title}
-  p This is the dashboard
+    h1= title
+    p Dashboard
+    p Current time and date: #{date}
+    script.
+
+
+
+    .http
+        h3 Number of GET request
+        p.get 0
+        h3 Number of POST requests
+        p.post 0
+        h3 Time
+        p.data time
+
+    .net
+        h3 Active network interfaces
+        p.networkInterface ethx
+        h3 Transport of data
+        p.transport xcoming
+        h3 Time
+        p.data time
+
+    .system
+        h3 Flag
+        p.flag someFlag
+        h3 Data
+        p.data someData
+        h3 Time
+        p.data time

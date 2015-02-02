@@ -68,7 +68,6 @@ describe("Routes", function() {
     describe("POST /resources/system", function() {
         it("Should return 200 for successful insertion of system telemetry", function(done) {
             var systemTelemetry = {
-                resource: "system",
                 flag: "CPU",
                 time: "12:00",
                 data: "100%"

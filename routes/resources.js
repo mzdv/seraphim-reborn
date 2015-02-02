@@ -53,7 +53,6 @@ router.post('/net', function(req, res) {
 // POST /system used for system data (CPU, memory...)
 router.post('/system', function(req, res) {
     var data = new systemModel({
-        resource: req.body.resource,
         flag: req.body.flag,
         time: req.body.time,
         data: req.body.data
