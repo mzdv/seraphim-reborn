@@ -11,3 +11,12 @@ var server = app.listen(app.get('port'), function() {
 var io = require("socket.io")(server);
 
 // INSERT SOCKET.IO HERE
+
+io.on("connection", function(socket) {
+    socket.emit("hello", {
+        hello: "world"
+    });
+    socket.on("goodbye", function(data) {
+        console.log(data);
+    })
+});

@@ -4,9 +4,6 @@ block content
     h1= title
     p Dashboard
     p Current time and date: #{date}
-    script.
-
-
 
     .http
         h3 Number of GET request
@@ -31,3 +28,13 @@ block content
         p.data someData
         h3 Time
         p.data time
+
+    script(src="/socket.io/socket.io.js")
+    script.
+        var socket = io.connect("http://localhost:3000");
+        socket.on("hello", function(data) {
+            console.log(data);
+        });
+        socket.emit("goodbye", {
+            goodbye: "rolf"
+        });
