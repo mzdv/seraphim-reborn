@@ -10,7 +10,7 @@ gulp.task('develop', function () {
     ext: 'js jade'
   }).on('restart', function () {
     setTimeout(function () {
-      livereload.changed();
+      livereload.changed('/views');
     }, 500);
   });
 });
