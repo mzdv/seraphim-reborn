@@ -2,6 +2,9 @@
 var debug = require('debug')('expressapp');
 var app = require('../app');
 
+var deuces = require("deuces");
+deuces.connect();
+
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
@@ -10,19 +13,20 @@ var server = app.listen(app.get('port'), function() {
 
 var io = require("socket.io")(server);
 
-// INSERT SOCKET.IO HERE
-
 io.on("connection", function(socket) {
-    socket.emit("hello", {
-        hello: "world"
-    });
-    socket.on("goodbye", function(data) {
-        console.log(data);
-    })
-});
 
-io.in("resources/http").on("connection", function(socket) {
-    socket.emit("bello", {
-        bello: "I r working"
+    deuces.commands.ping("PING", function(result) {
+        console.log("Redis status: " + result ? " up" : " down");
+    });
+
+    deuces.commands.subscribe(["http", "net", "system"], function(result) {
+        console.log(result);    //just to test how this thing gathers data; will be replaced by a parser and socket.io
+    });
+
+    socket.on("kill", function(){
+        deuces.disconnect(function() {
+            console.log("Redis connection killed");
+        });
+        console.log("Good bye!")
     });
 });
