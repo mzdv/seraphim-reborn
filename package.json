@@ -14,7 +14,8 @@
     "morgan": "~1.5.0",
     "serve-favicon": "~2.2.0",
     "socket.io": "^1.3.2",
-    "mongoose": "*"
+    "mongoose": "*",
+    "deuces": "*"
   },
   "devDependencies": {
     "gulp": "~3.8.10",

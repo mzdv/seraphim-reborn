@@ -20,3 +20,9 @@ io.on("connection", function(socket) {
         console.log(data);
     })
 });
+
+io.in("resources/http").on("connection", function(socket) {
+    socket.emit("bello", {
+        bello: "I r working"
+    });
+});

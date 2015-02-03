@@ -4,7 +4,7 @@ var netModel = require("../models/net");
 var systemModel = require("../models/system");
 
 var express = require('express');
-
+var io = require("socket.io")();
 var router = express.Router();
 
 mongoose.connect("mongodb://localhost:27017/seraphim-reborn");
