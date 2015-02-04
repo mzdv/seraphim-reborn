@@ -4,8 +4,9 @@ var netModel = require("../models/net");
 var systemModel = require("../models/system");
 
 var express = require('express');
-var io = require("socket.io")();
 var router = express.Router();
+
+var deuces = require("deuces");
 
 mongoose.connect("mongodb://localhost:27017/seraphim-reborn");
 
@@ -24,12 +25,14 @@ router.post('/http', function(req, res) {
         content: req.body.content
     });
 
-    data.save(function(err) {
-        if(err) {
-            res.status(500).end();
-        }
+    deuces.commands.publish("http", JSON.stringify(data), function() {
+        data.save(function(err) {
+            if(err) {
+                res.status(500).end();
+            }
 
-        res.status(200).end();
+            res.status(200).end();
+        });
     });
 });
 
@@ -40,13 +43,14 @@ router.post('/net', function(req, res) {
         time: req.body.time,
         transport: req.body.transport
     });
+    deuces.commands.publish("net", JSON.stringify(data), function() {
+        data.save(function(err) {
+            if(err) {
+                res.status(500).end();
+            }
 
-    data.save(function(err) {
-        if(err) {
-            res.status(500).end();
-        }
-
-        res.status(200).end();
+            res.status(200).end();
+        })
     });
 });
 
@@ -58,12 +62,14 @@ router.post('/system', function(req, res) {
         data: req.body.data
     });
 
-    data.save(function(err) {
-        if(err) {
-            res.status(500).end();
-        }
+    deuces.commands.publish("system", JSON.stringify(data), function() {
+        data.save(function(err) {
+            if(err) {
+                res.status(500).end();
+            }
 
-        res.status(200).end();
+            res.status(200).end();
+        });
     });
 });
 
