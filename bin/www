@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 var debug = require('debug')('expressapp');
 var app = require('../app');
-
-var deuces = require("deuces");
-deuces.connect();
+var subscriber = require("../redis/subscriber");
 
 app.set('port', process.env.PORT || 3000);
 
@@ -13,20 +11,13 @@ var server = app.listen(app.get('port'), function() {
 
 var io = require("socket.io")(server);
 
+subscriber.on("message", function(channel, message) {
+    console.log(message);
+});
+
 io.on("connection", function(socket) {
 
-    deuces.commands.ping("PING", function(result) {
-        console.log("Redis status: " + result ? " up" : " down");
-    });
-
-    deuces.commands.subscribe(["http", "net", "system"], function(result) {
-        console.log(result);    //just to test how this thing gathers data; will be replaced by a parser and socket.io
-    });
-
     socket.on("kill", function(){
-        deuces.disconnect(function() {
-            console.log("Redis connection killed");
-        });
         console.log("Good bye!")
     });
 });

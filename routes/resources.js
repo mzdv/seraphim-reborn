@@ -6,9 +6,13 @@ var systemModel = require("../models/system");
 var express = require('express');
 var router = express.Router();
 
-var deuces = require("deuces");
+var redis = require("redis");
+clientBackend = redis.createClient();
 
-mongoose.connect("mongodb://localhost:27017/seraphim-reborn");
+mongoose.connect("mongodb://localhost:27017/seraphim-reborn", function(err) {
+    if(err)
+        console.log(err);
+});
 
 // POST / used for auth
 router.post('/', function(req, res) {
@@ -17,6 +21,7 @@ router.post('/', function(req, res) {
 
 // POST /http used for http data (requests incoming etc etc)
 router.post('/http', function(req, res) {
+
     var data = new httpModel({
         request: req.body.request,
         from: req.body.from,
@@ -25,14 +30,14 @@ router.post('/http', function(req, res) {
         content: req.body.content
     });
 
-    deuces.commands.publish("http", JSON.stringify(data), function() {
-        data.save(function(err) {
+
+    clientBackend.publish("http", data);
+
+    data.save(function(err) {
             if(err) {
                 res.status(500).end();
             }
-
             res.status(200).end();
-        });
     });
 });
 
@@ -43,15 +48,15 @@ router.post('/net', function(req, res) {
         time: req.body.time,
         transport: req.body.transport
     });
-    deuces.commands.publish("net", JSON.stringify(data), function() {
+
+    clientBackend.publish("net", data);
+
         data.save(function(err) {
             if(err) {
                 res.status(500).end();
             }
-
             res.status(200).end();
         })
-    });
 });
 
 // POST /system used for system data (CPU, memory...)
@@ -62,15 +67,15 @@ router.post('/system', function(req, res) {
         data: req.body.data
     });
 
-    deuces.commands.publish("system", JSON.stringify(data), function() {
+    clientBackend.publish("system", data);
+
         data.save(function(err) {
             if(err) {
                 res.status(500).end();
             }
-
             res.status(200).end();
         });
-    });
+
 });
 
 module.exports = router;
