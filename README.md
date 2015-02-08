@@ -8,6 +8,7 @@ Goal is to allow logging and representation in near-real time of web application
 Release information
 ===================
 Current version: v1.0
+
 Codename: Lauri Torni
 
 Installation
