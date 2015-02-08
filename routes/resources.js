@@ -31,7 +31,7 @@ router.post('/http', function(req, res) {
     });
 
 
-    clientBackend.publish("http", data);
+    clientBackend.publish("http", JSON.stringify(data));
 
     data.save(function(err) {
             if(err) {
@@ -45,11 +45,10 @@ router.post('/http', function(req, res) {
 router.post('/net', function(req, res) {
     var data = new netModel({
         networkInterface: req.body.networkInterface,
-        time: req.body.time,
         transport: req.body.transport
     });
 
-    clientBackend.publish("net", data);
+    clientBackend.publish("net", JSON.stringify(data));
 
         data.save(function(err) {
             if(err) {
@@ -63,11 +62,10 @@ router.post('/net', function(req, res) {
 router.post('/system', function(req, res) {
     var data = new systemModel({
         flag: req.body.flag,
-        time: req.body.time,
         data: req.body.data
     });
 
-    clientBackend.publish("system", data);
+    clientBackend.publish("system", JSON.stringify(data));
 
         data.save(function(err) {
             if(err) {

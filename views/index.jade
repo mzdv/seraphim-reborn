@@ -2,44 +2,87 @@ extends layout
 
 block content
     h1= title
-    p Dashboard
-    p Current time and date: #{date}
+    p Current time and date:
+    #currentTime 000
 
     .http
-        h3 Number of GET requests
-        p.get 0
-        h3 Number of POST requests
-        p.post 0
+        h3 Last request
+        #lastRequest request
+        h3 From
+        #from xyz
+        h3 To
+        #to zyx
+        h3 Headers
+        #headers headers
+        h3 Content
+        #content content
         h3 Time
-        p.data time
+        #httpTime content
 
     .net
         h3 Active network interfaces
-        p.networkInterface ethx
+        #networkInterface ethx
         h3 Transport of data
-        p.transport xcoming
+        #transport xcoming
         h3 Time
-        p.data time
+        #netTime time
 
     .system
         h3 Flag
-        p.flag someFlag
+        #flag someFlag
         h3 Data
-        p.data someData
+        #data someData
         h3 Time
-        p.data time
+        #systemTime time
 
     script(src="/components/socket.io-client/socket.io.js")
     script.
-        var socket = io.connect("http://localhost:3000");
-        var http = io.connect("http://localhost:3000/resources/http");
+        var currentTime = document.getElementById("currentTime");
 
-        socket.on("hello", function(data) {
-            console.log(data);
+        setInterval(function() {
+            currentTime.innerHTML = Date();
+        }, 1000);
+
+        var socket = io.connect("http://localhost:3000");
+
+        socket.on("http", function(data) {
+            var field = document.getElementById("lastRequest");
+            field.innerHTML = data.request;
+
+            field = document.getElementById("from");
+            field.innerHTML = data.from;
+
+            field = document.getElementById("to");
+            field.innerHTML = data.to;
+
+            field = document.getElementById("headers");
+            field.innerHTML = data.headers;
+
+            field = document.getElementById("content");
+            field.innerHTML = data.content;
+
+            field = document.getElementById("httpTime");
+            field.innerHTML = data.created;
         });
-        socket.emit("goodbye", {
-            goodbye: "rolf"
+
+        socket.on("net", function(data) {
+            var field = document.getElementById("networkInterface");
+            field.innerHTML = data.networkInterface;
+
+            field = document.getElementById("transport");
+            field.innerHTML = data.transport;
+
+            field = document.getElementById("netTime");
+            field.innerHTML = data.created;
         });
-        http.on("bello", function(data) {
-            console.log(data);
+
+        socket.on("system", function(data) {
+            var field = document.getElementById("flag");
+            field.innerHTML = data.flag;
+
+            field = document.getElementById("data");
+            field.innerHTML = data.data;
+
+            field = document.getElementById("systemTime");
+            field.innerHTML = data.created;
         });

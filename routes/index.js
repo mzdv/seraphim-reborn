@@ -5,8 +5,7 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
     res.render("index", {
-        title: "seraphim-reborn",
-        date: Date()        // this will be supplemented by socket.io
+        title: "seraphim-reborn"
     });
 });
 
